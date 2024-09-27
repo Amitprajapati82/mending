@@ -229,10 +229,9 @@
       <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-          <h2>People and Values</h2>
-         <P class="mb-3">The team at Effectus is united by the strong desire to create a lasting impact. We have opted to be in the Sales Performance and Culture consulting domains because we believe that enabling Sales Excellence in the B2B space and leveraging Culture and Accountability to transform mindsets or tradional beliefs of teams can make a tangible difference to the performance of organizations.</p>
+            <h2>People and Values</h2>
+            <P class="mb-3">The team at Effectus is united by the strong desire to create a lasting impact. We have opted to be in the Sales Performance and Culture consulting domains because we believe that enabling Sales Excellence in the B2B space and leveraging Culture and Accountability to transform mindsets or tradional beliefs of teams can make a tangible difference to the performance of organizations.</p>
         
-          
         </div>
    </div>
     </section>
@@ -247,27 +246,28 @@
         <div class="section-header">
           <h2>Team Effectus</h2>
           <!--</div>-->
-            <h2 style="text-align:justify">J P Singh</h2>
-         <P class="mb-3">JP was Executive Vice President (Electrical & Automation) and Board Member of the Electrical & Automation Vertical, with India’s leading Engineering, Construction & Technology company, Larsen & Toubro Limited (L&T).</p>
+          <h2 style="text-align:justify">J P Singh</h2>
+
+          <P class="mb-3">JP was Executive Vice President (Electrical & Automation) and Board Member of the Electrical & Automation Vertical, with India’s leading Engineering, Construction & Technology company, Larsen & Toubro Limited (L&T).</p>
+          
+          <P class="mb-3">He was responsible for multiple business units in the Control & Automation and Electrical Systems & Projects space in India and the Middle East. Immediately before this he was MD of Yokogawa Japan’s India JV and, for 18 years prior to Yokogawa, he was with Emerson Process Management India JV where he rose from Employee No.1 to VP&GM in the period from 1981-1991. </p>
+          
+          <P class="mb-3">He founded Effectus to help B2B Sales professionals- leveraging  his own experience in Industry in the B2B arena and, from time to time, the best global IP (formerly Miller Heiman Group Consultant).</p>
+          
+          <P class="mb-3">JP’s conviction is that great sales performance is the outcome  of  applying Skillset +Mindset + Discipline to a well defined, client focused Sales Process.</p>
+          
+          <P class="mb-3">It is from this belief that he developed a clear Vision to help business leaders and sales leaders elevate their game, get results, and achieve recognition.</p>
+          
+          <P class="mb-3">Approaching sales enablement  with a ‘been there done that’ perspective, he has devised an effective strategic framework that transforms the way sales leaders steer and empower their teams,  help teams understand their customers’ world to create value both for their customers as well as their Sales organizations. He delivers tailored learning interventions that help clients achieving their key results.</p>
+          
          
-         <P class="mb-3">He was responsible for multiple business units in the Control & Automation and Electrical Systems & Projects space in India and the Middle East. Immediately before this he was MD of Yokogawa Japan’s India JV and, for 18 years prior to Yokogawa, he was with Emerson Process Management India JV where he rose from Employee No.1 to VP&GM in the period from 1981-1991. </p>
-         
-         <P class="mb-3">He founded Effectus to help B2B Sales professionals- leveraging  his own experience in Industry in the B2B arena and, from time to time, the best global IP (formerly Miller Heiman Group Consultant).</p>
-         
-         <P class="mb-3">JP’s conviction is that great sales performance is the outcome  of  applying Skillset +Mindset + Discipline to a well defined, client focused Sales Process.</p>
-         
-         <P class="mb-3">It is from this belief that he developed a clear Vision to help business leaders and sales leaders elevate their game, get results, and achieve recognition.</p>
-         
-         <P class="mb-3">Approaching sales enablement  with a ‘been there done that’ perspective, he has devised an effective strategic framework that transforms the way sales leaders steer and empower their teams,  help teams understand their customers’ world to create value both for their customers as well as their Sales organizations. He delivers tailored learning interventions that help clients achieving their key results.</p>
-         
-         
-           <a class="btn btn-primary" href="sales.html" role="button">Read More</a>
+          <a class="btn btn-primary" href="sales.html" role="button">Read More</a>
         
           
         </div>
    </div>
-    </section>
-    <!-- End About Us Section -->
+  </section>
+  <!-- End About Us Section -->
 
     
 
@@ -308,12 +308,11 @@
 
         <div class="col-lg-2 col-6 footer-links">
           <h4>Our Services</h4>
-          <ul>
-            <li><a href="sales.html">Sales Transformation & Coaching </a></li>
-            <li><a href="buisness.html"> Business Acumen</a></li>
-            <li><a href="culture.html">Culture Consulting </a></li>
-           
-          </ul>
+            <ul>
+              <li><a href="sales.html">Sales Transformation & Coaching </a></li>
+              <li><a href="buisness.html"> Business Acumen</a></li>
+              <li><a href="culture.html">Culture Consulting </a></li>
+            </ul>
         </div>
 
         <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
@@ -338,6 +337,7 @@
 
       </div>
     </div>
+
     <hr>
     <div class="footer-bottom">
       <div class="container">
@@ -351,9 +351,7 @@
           </div>
           <div class="col-lg-6 col-md-12 text-center text-lg-end  mt-3">
             <ul class="footer-link d-inline-block">
-             
-
-              <span class="copyright-text">Powered by
+                <span class="copyright-text">Powered by
                 <a href="https://ideatore.in/" class="text-primary" target="_blank"><b>Ideatore</b></a></span>
             </ul>
           </div>
@@ -361,9 +359,9 @@
       </div>
     </div>
   
-    
-
-  </footer><!-- End Footer -->
+  </footer>
+  <!-- End Footer -->
+   
   <!-- End Footer -->
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

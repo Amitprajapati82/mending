@@ -1,7 +1,16 @@
 @extends('layout.app')
 
 @section('content')
+<!-- <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script> -->
+<style>
+    /* Add this to your CSS file */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
 
+</style>
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Page</h1>
@@ -29,80 +38,68 @@
                 </div>
                 <!-- Form content directly on the page -->
                 <div class="card-body mt-3">
-                    <form id="addPageContentForm" enctype="multipart/form-data">
-                        <div class="row">
-                            <!-- Column 1 -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="pageName" class="form-label">Page Name</label>
-                                    <input type="text" class="form-control" id="pageName" name="pageName" placeholder="Enter Name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="bannerId" class="form-label">Select Banner</label>
-                                    <select class="form-control" id="bannerId" name="bannerId">
-                                        <option value="">--Select Banner--</option>
-                                        @foreach ($banner as $item)
-                                            <option value="{{$item->id}}">{{$item->title}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="introId" class="form-label">Select Introduction</label>
-                                    <select class="form-control" id="introId" name="introId">
-                                        <option value="">--Select Introduction--</option>
-                                        @foreach ($introduction as $item)
-                                            <option value="{{$item->id}}">{{$item->title}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div id="dynamicFieldsContainer">
-                            <!-- Initial Fields -->
-                            <div class="dynamic-field mb-4">
-                                <div class="mb-3">
-                                    <label for="pageTitle" class="form-label">Title</label>
-                                    <input type="text" class="form-control" name="pageTitle[]" placeholder="Enter title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="pageDescription" class="form-label">Description</label>
-                                    <textarea class="form-control" name="pageDescription[]" rows="3" placeholder="Enter description" required></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="pageImages" class="form-label">Upload Images</label>
-                                    <div class="input-group mb-2">
-                                        <input type="file" class="form-control" name="pageImages[]" accept="image/*">
-                                    </div>
-                                </div>
-                                <!-- Remove button for the initial fields -->
-                                <!-- <button type="button" class="btn btn-danger remove-field mb-2">Remove</button> -->
-                                <!-- <hr> -->
-                            </div>
-                        </div>
-                        <!-- Button to add more fields -->
-                        <button type="button" id="addMoreFields" class="btn btn-secondary mb-3">Add More Fields</button>
-                            </div>
+                <form id="addPageContentForm" enctype="multipart/form-data">
+    <div class="row">
+        <!-- Column 1 -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="pageName" class="form-label">Page Name</label>
+                <input type="text" class="form-control" id="pageName" name="pageName" placeholder="Enter Name" required>
+            </div>
 
-                            <!-- Column 2 -->
-                            <div class="col-md-6">
-                                
-                                <div class="mb-3">
-                                    <label for="metaTitle" class="form-label">Meta Title</label>
-                                    <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="Enter meta title">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="metaDescription" class="form-label">Meta Description</label>
-                                    <textarea class="form-control" id="metaDescription" name="metaDescription" rows="3" placeholder="Enter meta description"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="metaKeywords" class="form-label">Meta Keywords</label>
-                                    <input type="text" class="form-control" id="metaKeywords" name="metaKeywords" placeholder="Enter meta keywords">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-secondary me-2">Cancel</button>
-                            <button type="submit" class="btn btn-primary" id="savePageContentButton">Save Page Content</button>
-                        </div>
-                    </form>
+            <div class="mb-3">
+                <label for="bannerId" class="form-label">Select Banner</label>
+                <select class="form-control" id="bannerId" name="bannerId" required>
+                    <option value="">--Select Banner--</option>
+                    @foreach ($banner as $item)
+                        <option value="{{$item->id}}">{{$item->title}}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="introId" class="form-label">Select Introduction</label>
+                <select class="form-control" id="introId" name="introId" required>
+                    <option value="">--Select Introduction--</option>
+                    @foreach ($introduction as $item)
+                        <option value="{{$item->id}}">{{$item->title}}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="titleId" class="form-label">Select Title</label>
+                <select class="form-control" id="titleId" name="titleId" required>
+                    <option value="">--Select Title--</option>
+                    @foreach ($title as $item)
+                        <option value="{{$item->id}}">{{$item->title}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="metaTitle" class="form-label">Meta Title</label>
+                <input type="text" class="form-control" id="metaTitle" name="metaTitle" placeholder="Enter meta title" required>
+            </div>
+            <div class="mb-3">
+                <label for="metaDescription" class="form-label">Meta Description</label>
+                <textarea class="form-control" id="metaDescription" name="metaDescription" rows="3" placeholder="Enter meta description" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="metaKeywords" class="form-label">Meta Keywords</label>
+                <input type="text" class="form-control" id="metaKeywords" name="metaKeywords" placeholder="Enter meta keywords" required>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-secondary me-2">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="savePageContentButton">Save Page Content</button>
+    </div>
+</form>
+
                 </div>
             </div>
         </div>
@@ -112,5 +109,6 @@
 </main>
 
 <script src="{{asset('assets/js/Page/form.js')}}"></script>
+
 
 @endsection

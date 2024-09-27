@@ -65,6 +65,11 @@
             </div>
             <div class="modal-body">
                 <form id="addPageMainContentForm" enctype="multipart/form-data">
+
+                <!-- <div class="mb-3">
+                                <label for="pageName" class="form-label">Page Name</label>
+                                <input type="text" class="form-control" id="pageName" name="pageName" placeholder="Enter Name" required>
+                            </div> -->
                     <!-- Dynamic Fields Container -->
                     <div id="dynamicFieldsContainer">
                         <!-- Initial Fields -->
@@ -86,7 +91,7 @@
                         </div>
                     </div>
                     <!-- Button to add more fields -->
-                    <button type="button" id="addMoreFields" class="btn btn-secondary mb-3">Add More Fields</button>
+                    <!-- <button type="button" id="addMoreFields" class="btn btn-secondary mb-3">Add More Fields</button> -->
                     
                     <!-- Image Preview -->
                     <div class="m-3">
@@ -101,6 +106,54 @@
         </div>
     </div>
 </div>
+
+<!-- edit -->
+<div class="modal fade" id="editPageMainContentModal" tabindex="-1" aria-labelledby="editPageMainContentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPageMainContentModalLabel">Edit Page Main Content</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editPageMainContentForm" enctype="multipart/form-data">
+                    <!-- Hidden input to store the ID of the item being edited -->
+                    <input type="hidden" id="editId" name="id">
+
+                    <!-- Dynamic Fields Container -->
+                    <div id="dynamicEditFieldsContainer">
+                        <!-- Initial Fields -->
+                        <div class="dynamic-field mb-4">
+                            <div class="mb-3">
+                                <label for="editPageTitle" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="editPageTitle" name="editPageTitle" placeholder="Enter title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editPageDescription" class="form-label">Description</label>
+                                <textarea class="form-control" id="editPageDescription" name="editPageDescription" rows="3" placeholder="Enter description" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editPageImages" class="form-label">Upload Images</label>
+                                <div class="input-group mb-2">
+                                    <input type="file" class="form-control" id="editPageImages" name="editPageImages" accept="image/*">
+                                </div>
+                            </div>
+                            <!-- Image Preview -->
+                            <div class="m-3">
+                                <img id="editImagePreview" src="" alt="Image Preview" class="img-fluid" style="display:none;">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="updatePageMainContentButton">Update Page Main Content</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="{{asset('assets/js/Page/maincontent.js')}}"></script>
 

@@ -13,6 +13,7 @@
             Template">
     <!-- set the Keyword -->
     <meta name="keywords" content>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="Kitzen | Modern Kitchen HTML Template">
     <!-- include poppins google font cdn link -->
     <title>Mending- Mobile Repair</title>
@@ -552,74 +553,46 @@
 
 
             <!-- ======= Stats Counter Section ======= -->
-            <section id="stats-counter " class="stats-counter">
+            <section id="stats-counter" class="stats-counter">
                 @foreach ($pageContents as $item)
-                
-                <div class="section-header">
-                    <h2>{{$item->title}}</h2>
-                    <!-- <p>Aperiam dolorum et et wuia molestias qui eveniet numquam nihil porro incidunt dolores placeat sunt id nobis omnis tiledo stran delop</p> -->
-                </div>
-                <div class="container " data-aos="fade-up">
+                <h1>{{$item['page_main_content']}}</h1>
+                    @if(isset($item['page_main_content']) && is_object($item['page_main_content'])) 
+                        <div class="section-header">
+                            <h2>{{ $item['page_main_content']->title }}</h2>
+                        </div>
+                        <div class="container" data-aos="fade-up">
 
-                    <div class="row gy-4 align-items-center bg-clr">
-                    @if($item['intro']->images)
-                        @php
-                            // Decode the JSON array, ensure it's correctly handled
-                            $image = json_decode($item->images, true);
-                        @endphp
-                        @if(is_array($image) && count($image) > 0)
-                            @foreach($image as $img)
-                            <div class="col-lg-5">
-                                <div class="image-box text-center">
-                                 <img src="{{ asset('storage/' . $img) }}" class="img-fluid rounded-4" alt="">
+                            <div class="row gy-4 align-items-center bg-clr">
+                                @php
+                                    // Decode images only if they exist
+                                    $image = json_decode($item['page_main_content']->images, true);
+                                @endphp
 
+                                @if($image && is_array($image) && count($image) > 0)
+                                    @foreach($image as $img)
+                                        <div class="col-lg-5">
+                                            <div class="image-box text-center">
+                                                <img src="{{ asset('storage/' . $img) }}" class="img-fluid rounded-4" alt="">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p>No images available.</p>
+                                @endif
+
+                                <div class="col-lg-7">
+                                    <div class="section-header">
+                                        <p class="mb-3 text-justify">{{ $item['page_main_content']->description }}</p>
+                                    </div>
                                 </div>
                             </div>
-
-                               
-                            @endforeach
-                        @else
-                            <p>No images available.</p>
-                        @endif
-                    @else
-                        <p>No images available.</p>
-                    @endif
-                        
-                        <div class="col-lg-7">
-
-                            <div class="section-header">
-                                <!-- <h3>Sales Essentials</h3> -->
-
-                                <P class="mb-3 text-justify">{{$item->description}}</p>
-
-                                <!-- <P class="mb-3 text-justify"><b> High-Quality Parts:</b> We use only the best quality
-                                    parts for all our mobile repair services, guaranteeing durability and performance.
-                                </p>
-
-                                <P class="mb-3 text-justify"><b> Fast Turnaround:</b> We understand the importance of
-                                    your mobile device, which is why we offer quick and efficient mobile repair services
-                                    to minimize your downtime.
-                                    Affordable Prices: Our mobile repair services are competitively priced, offering you
-                                    the best value for your money.</p> -->
-
-
-
-
-                                <!-- <div class="section-head style-1 text-center">
-  
-              <button class="btn shadow-primary btn-primary mt-3 mb-3"><a  href="sales.html" >Read More</a></button>
-                                                  
-            </div> -->
-
-                            </div>
                         </div>
-
-                    </div>
-
-                </div>
+                    @else
+                        <p>Content not available.</p>
+                    @endif
                 @endforeach
-
             </section>
+
             <!-- End Stats Counter Section -->
             <!-- ======= Stats Counter Section ======= -->
             <!-- <section id="stats-counter " class="stats-counter">
@@ -759,43 +732,44 @@
                             <!--    <div class="text-center"><button type="submit" id="formsubmit" name="submit">Send Message</button></div>-->
                             <!--</form>-->
                             
-                            <form class="emailform">
-    <div class="row">
-        <div class="col-md-6 form-group">
-            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-        </div>
-        <div class="col-md-6 form-group mt-3 mt-md-0">
-            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-        </div>
-    </div>
-    
-    <div class="row">
-        
-    <div class=" col-md-6 form-group ">
-        <input type="text" class="form-control" name="contact_no" id="contact_no" placeholder="Contact No" required>
-    </div>
-        <div class="col-md-6 form-group">
-        <input type="text" class="form-control" name="subject" id="subject" placeholder="Issue" required>
-    </div>
-    
-    
-    </div>
-    
-    <div class="row mt-3">
-        <div class="col-md-6 form-group">
-            <input type="text" name="phone_brand" class="form-control" id="phone_brand" placeholder="Phone Brand" required>
-        </div>
-        <div class="col-md-6 form-group mt-3 mt-md-0">
-            <input type="text" name="phone_model" class="form-control" id="phone_model" placeholder="Phone Model" required>
-        </div>
-    </div>
-    
-    
-    <div class="form-group mt-3">
-        <textarea class="form-control" id="message" name="message" rows="7" placeholder="Message" required></textarea>
-    </div>
-    <div class="text-center"><button type="submit" id="formsubmit" name="submit">Send Message</button></div>
-</form>
+                            <form class="emailform" id="contactForm">
+                                <div id="responseMessage"></div>
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                                    </div>
+                                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                                        <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mt-3">
+                                    
+                                <div class=" col-md-6 form-group ">
+                                    <input type="text" class="form-control" name="contact_no" id="contact_no" placeholder="Contact No" required>
+                                </div>
+                                    <div class="col-md-6 form-group">
+                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Issue" required>
+                                </div>
+                                
+                                
+                                </div>
+                                
+                                <div class="row mt-3">
+                                    <div class="col-md-6 form-group">
+                                        <input type="text" name="phone_brand" class="form-control" id="phone_brand" placeholder="Phone Brand" required>
+                                    </div>
+                                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                                        <input type="text" name="phone_model" class="form-control" id="phone_model" placeholder="Phone Model" required>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="form-group mt-3">
+                                    <textarea class="form-control" id="message" name="message" rows="7" placeholder="Message" required></textarea>
+                                </div>
+                                <div class="text-center mt-3"><button type="submit" class="btn btn-primary" id="formsubmit" name="submit">Send Message</button></div>
+                            </form>
 
                         </div>
 
@@ -1054,75 +1028,159 @@
                                             var url = `https://wa.me/ ${name}
 ${email}${phone}?text=${message}`;
                                         }
-                                        window.open(url, '_blank').focus();
+                                        
                                     </script>
 
 
 
     <script>
-           const formsub = document.querySelector("#formsubmit");
-formsub.addEventListener("click", function (e) {
-    e.preventDefault();
-    // 	console.log(formsub)
-    checkRegistration()
-    // 	// console.log(AndriodRepair[i].parentElement.parentElement.parentElement.children[0])
-    // 	// var productname = AndriodRepair[i].parentElement.parentElement.parentElement.children[0].innerText;
-    // 	// console.log(productname, productid)
-    // 	window.location.href = `https://wa.me/+917304776477?text='Product`;
-
-    // 	// window.location.href = `https://wa.me/+917304776477?text='Product  Name'${productname}${blacnk}'Product Id'${productid}${blacnk}'Product  Price'${productprice}`;
-});
-
-function checkRegistration() {
-    var error = "";
-
-    if (document.getElementById('name').value == "") {
-        error += "Name Required !\n";
-        document.getElementById('name').style.borderColor = "#ffffff";
-        document.getElementById('name').style.backgroundColor = "#b5b5b533";
-    }
-
-    if (document.getElementById('email').value == "") {
-        error += "Email Required !\n";
-
-        document.getElementById('email').style.borderColor = "#ffffff";
-        document.getElementById('email').style.backgroundColor = "#b5b5b533";
-    }
-
-    if (document.getElementById('subject').value == "") {
-        error += "message Required !\n";
-
-        document.getElementById('subject').style.borderColor = "#ffffff";
-        document.getElementById('subject').style.backgroundColor = "#b5b5b533";
-    }
-    if (document.getElementById('message').value == "") {
-        error += "Model number Required !\n";
-
-        document.getElementById('message').style.borderColor = "#ffffff";
-        document.getElementById('message').style.backgroundColor = "#b5b5b533";
-    }
-
-    if (error != "") {
-        alert(error);
-        return false;
-    }
-
-    let name = document.getElementById('name').value
-    let email = document.getElementById('email').value
-    let subject = document.getElementById('subject').value
-    let message = document.getElementById('message').value
-    var blacnk = " ";
-    alert("Thank you for your Complaint. We appreciate your concern. We hope you will accept our commitment to quality, and continue to enjoy our superior.")
-
-    window.location.href = `https://wa.me/+917304776477?text='name' ${name}  ${blacnk} 'email' ${email}  ${blacnk} 'subject' ${subject}  ${blacnk} 'message' ${message}  ${blacnk}`;
-    // $("#btnsubmit2").attr('disabled', 'true');
-    // return true;
-}
+           
     </script>
 <script>
   AOS.init();
 </script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+            $('#formsubmit').on('click', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var mobile = $('#contact_no').val();
+                var issue = $('#subject').val();
+                var brand = $('#phone_brand').val();
+                var model = $('#phone_model').val();
+                var message = $('#message').val();
+                // Get form data
+                // var formData = $(this).serialize();
+                
+                // AJAX request
+                $.ajax({
+                    url: '/contact/submit', // Adjust the URL according to your routing
+                    type: 'POST',
+                    data: {name:name,email:email,mobile:mobile,issue:issue,brand:brand,model:model,message:message},
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+                    },
+                    success: function(response) {
+                        $('#responseMessage').html('<div class="alert alert-success">' + response.success + '</div>');
+                        $('#contactForm')[0].reset(); // Reset form fields
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        var errorMessage = '';
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                errorMessage += value[0] + '<br>'; // Append each error message
+                            });
+                        } else {
+                            errorMessage = 'Something went wrong. Please try again later.';
+                        }
+                        $('#responseMessage').html('<div class="alert alert-danger">' + errorMessage + '</div>');
+                    }
+                });
+            });
+        
+
+       
+    // Initialize validation on the form
+    $("#contactForm").validate({
+        // Define validation rules for each input field
+        rules: {
+            name: {
+                required: true,
+                minlength: 2
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            contact_no: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            subject: {
+                required: true,
+                minlength: 3
+            },
+            phone_brand: {
+                required: true
+            },
+            phone_model: {
+                required: true
+            },
+            message: {
+                required: true,
+                minlength: 10
+            }
+        },
+        // Define custom messages for validation errors
+        messages: {
+            name: {
+                required: "Please enter your name",
+                minlength: "Your name must be at least 2 characters long"
+            },
+            email: {
+                required: "Please enter your email address",
+                email: "Please enter a valid email address"
+            },
+            contact_no: {
+                required: "Please enter your contact number",
+                digits: "Please enter only digits",
+                minlength: "Your contact number must be exactly 10 digits long",
+                maxlength: "Your contact number must be exactly 10 digits long"
+            },
+            subject: {
+                required: "Please specify the issue",
+                minlength: "The issue must be at least 3 characters long"
+            },
+            phone_brand: {
+                required: "Please enter your phone brand"
+            },
+            phone_model: {
+                required: "Please enter your phone model"
+            },
+            message: {
+                required: "Please enter your message",
+                minlength: "Your message must be at least 10 characters long"
+            }
+        },
+        // Highlight invalid fields
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        // Remove error class on valid fields
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        // Error placement: where to display error messages
+        errorPlacement: function (error, element) {
+            error.addClass('text-danger');
+            error.insertAfter(element);
+        },
+        // Handler when form is submitted
+        submitHandler: function (form) {
+            // You can add AJAX form submission here if needed
+            form.submit();
+        }
+    });
+
+    // Trigger validation on form submit button click
+    $('#formsubmit').click(function (e) {
+        e.preventDefault();
+        // Manually trigger validation
+        if ($("#contactForm").valid()) {
+            $("#contactForm").submit();
+        }
+    });
+});
+</script>
 </body>
 
 </html>

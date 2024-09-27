@@ -44,11 +44,17 @@ Route::get('/page',[HomeController::class,'DyanamicPage'])->name('home.page');
 Route::get('/issueData',[HomeController::class,'issue_data'])->name('home.issueData');
 Route::post('/saveBooking',[HomeController::class,'Appointment'])->name('home.appointment');
 Route::get('/brand/search', [HomeController::class, 'searchBrands'])->name('search.brands');
+Route::get('/brands-id/{id}', [HomeController::class, 'getBrandId'])->name('search.brandId');
+Route::get('/models/search', [HomeController::class, 'searchModels'])->name('search.Models');
+Route::get('/models-id/{id}', [HomeController::class, 'getModelById'])->name('search.ModelsId');
+Route::get('/brand/get-all-brands', [HomeController::class, 'getSearchBrands'])->name('search.getAllBrands');
+Route::get('/models/get-all-models', [HomeController::class, 'getSearchModels'])->name('search.getAllModels');
+Route::post('/admin/updateAppointmentStatus', [HomeController::class, 'updateStatus'])->name('search.updateStatus');
 
 Route::get('/device',[HomeController::class,'device'])->name('home.device');
 Route::get('/issues',[HomeController::class,'issues'])->name('home.issues');
 Route::get('/about_us',[HomeController::class,'AboutUs'])->name('home.about_us');
-Route::get('/contact',[HomeController::class,'contact'])->name('home.contact');
+Route::post('/contact/submit',[HomeController::class,'Contact'])->name('home.contact');
 
 // Login
 
@@ -133,12 +139,20 @@ Route::delete('admin/page-introduction/delete', [IntroductionController::class, 
 // 3. Page Content
 
 Route::get('admin/page-content', [ContentController::class, 'index'])->name('pagecontent.index');
+Route::get('admin/page-content/data', [ContentController::class, 'getContentData'])->name('pagecontent.getData');
 Route::get('admin/page-content/form', [ContentController::class, 'showForm'])->name('pagecontent.form');
 Route::post('admin/page-content/store', [ContentController::class, 'store'])->name('pagecontent.store');
+Route::get('admin/page-content/edit/{id}', [ContentController::class, 'edit'])->name('pagecontent.edit');
+Route::post('admin/page-content/update', [ContentController::class, 'update'])->name('pagecontent.update');
+Route::delete('admin/page-content/delete', [ContentController::class, 'destroy'])->name('pagecontent.delete');
 
 // 4.Main Content
 
-Route::get('admin/page-main-content', [MainContentController::class, 'index'])->name('pagecontent.main-content');
+Route::get('admin/page-main-content', [MainContentController::class, 'index'])->name('page-main-content.index');
+Route::get('admin/page-main-content/data', [MainContentController::class, 'getData'])->name('page-main-content.getData');
 Route::post('admin/page-main-content/store', [MainContentController::class, 'store'])->name('pagecontent.main-content.store');
+Route::get('admin/page-main-content/edit', [MainContentController::class, 'edit'])->name('pagecontent.main-content.edit');
+Route::post('admin/page-main-content/update', [MainContentController::class, 'update'])->name('page-main-content.update');
+Route::delete('admin/page-main-content/delete', [MainContentController::class, 'destroy'])->name('page-main-content.delet');
 
 

@@ -195,6 +195,48 @@ p {
     font-size: 16px;
     
 }
+body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 300px;
+        }
+        .dropdown select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            appearance: none; /* Remove default arrow */
+        }
+        .dropdown-list {
+            display: none;
+            position: absolute;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            width: 100%;
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .dropdown-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .dropdown-item:hover {
+            background: #f0f0f0;
+        }
+        .search-input {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
 
   </style>
 </head>
@@ -286,12 +328,15 @@ p {
         
        </div> 
 
-       <div class="search-box">
-        <input type="text" placeholder="Search..." />
-        <!-- <i class="bi bi-search"></i> -->
-    </div>
+       <div class="dropdown">
+            <input type="text" class="search-input" data-id="{{$brand_id}}" placeholder="Search Model" id="searchModel" />
+            
+            <div class="dropdown-list" id="modelList">
+                <!-- The dropdown items will be populated here -->
+            </div>
+        </div>
        
-       <div class="row gy-4 mt-3">
+       <div class="row gy-4 mt-3" id="modelCards">
         @foreach ($models as $model)
         
         <div class="col-md-2">
@@ -431,6 +476,160 @@ p {
   <script src="{{asset('assets/js/main.js')}}"></script>
   <script>
   AOS.init();
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    var $modelList = $('#modelList'); // Optional dropdown list for search results if needed
+    var $searchModel = $('#searchModel'); // Input field for searching models
+    var $modelCards = $('#modelCards'); // Container where model cards will be appended
+    var brand_id = $searchModel.data('id'); // Fetch the category_id or other relevant ID from the input field if applicable
+    
+    // Function to load all models based on a category or other filters
+    function loadAllModels() {
+        $.ajax({
+            url: '/models/get-all-models', // URL to your backend route to get all models
+            method: 'GET',
+            data: { brand_id: brand_id }, // Pass the necessary ID if needed
+            success: function (response) {
+                $modelCards.empty(); // Clear previous model cards
+                // Iterate over the response and append each model card
+                response.forEach(function (model) {
+                    $modelCards.append(`
+                        <div class="col-md-2">
+                            <div class="card">
+                                <a href="/issues?model_id=${model.id}">
+                                    <div class="content">
+                                        <div class="inner-cards">
+                                            <div class="inner-card">
+                                                <img src="/storage/${model.image}" alt="${model.device_name}">
+                                                <p>${model.device_name}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    `);
+                });
+            },
+            error: function () {
+                alert('Failed to load models.');
+            }
+        });
+    }
+
+    // Load all models initially when the page loads
+    loadAllModels();
+
+    // Search models dynamically based on user input
+    $searchModel.on('keyup', function () {
+        var searchValue = $(this).val(); // Fetch the current value of the search input
+
+        if (searchValue.length > 0) {
+            $.ajax({
+                url: '/models/search', // URL to your backend route to search models
+                method: 'GET',
+                data: { query: searchValue, brand_id: brand_id }, // Pass search query and relevant filters
+                success: function (response) {
+                    $modelList.empty(); // Clear dropdown if used
+                    $modelCards.empty(); // Clear the model cards container
+                    console.log(response);
+                    
+                    // Append the search results to the dropdown and model cards
+                    response.forEach(function (model) {
+                      // console.log(model);
+                      
+                        $modelList.append(`
+                            <div class="dropdown-item" data-id="${model.id}" data-name="${model.device_name}">
+                                ${model.device_name}
+                            </div>
+                        `);
+
+                        $modelCards.append(`
+                            <div class="col-md-2">
+                                <div class="card">
+                                    <a href="/issues?model_id=${model.id}">
+                                        <div class="content">
+                                            <div class="inner-cards">
+                                                <div class="inner-card">
+                                                    <img src="/storage/${model.image}" alt="${model.device_name}">
+                                                    <p>${model.device_name}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        `);
+                    });
+
+                    // Show dropdown list if there are results, hide otherwise
+                    if ($modelList.children().length > 0) {
+                       
+                        
+                        $modelList.show();
+                    } else {
+                      c
+                      
+                        $modelList.hide();
+                    }
+                },
+                error: function () {
+                    alert('Failed to search models.');
+                }
+            });
+        } else {
+            $modelList.empty().hide(); // Hide the dropdown if the input is empty
+            loadAllModels(); // Reload all models if search input is cleared
+        }
+    });
+
+    // Event listener for selecting a model from the dropdown
+    $modelList.on('click', '.dropdown-item', function () {
+        var selectedModelId = $(this).data('id'); // Get the name of the selected model
+        var selectedModel = $(this).data('name'); // Get the name of the selected model
+        $searchModel.val(selectedModel); // Update the search input with the selected model name
+        $modelList.hide(); 
+        
+        $.ajax({
+                url: `/models-id/${selectedModelId}`, // URL to get the specific model details by ID
+                method: 'GET',
+                
+                success: function (model) {
+                    $modelCards.empty(); // Clear previous cards
+                    // Append only the selected model's card
+                    $modelCards.append(`
+                        <div class="col-md-2">
+                            <div class="card">
+                                <a href="/issues?model_id=${model.id}">
+                                    <div class="content">
+                                        <div class="inner-cards">
+                                            <div class="inner-card">
+                                                <img src="/storage/${model.image}" alt="${model.device_name}">
+                                                <p>${model.device_name}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    `);
+                },
+                error: function () {
+                    alert('Failed to load the selected model.');
+                }
+            });// Hide the dropdown
+    });
+
+    // Hide dropdown when clicking outside of it
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('.dropdown').length) {
+            $modelList.hide();
+        }
+    });
+});
+
 </script>
 
 </body>

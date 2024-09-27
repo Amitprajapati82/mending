@@ -38,9 +38,13 @@
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Sr.no.</th>
-                                        <th>Title</th>
-                                        <th>Image</th>
-                                        <th>Description</th>
+                                        <th>Page Name</th>
+                                        <th>Banner</th>
+                                        <th>Introduction</th>
+                                        <th>Page Title</th>
+                                        <th>Meta Title</th>
+                                        <th>Meta Description</th>
+                                        <th>Meta Keywords</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -100,15 +104,15 @@
                             </div>
 
                             <!-- Title Field -->
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label for="pageTitle" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="pageTitle" name="pageTitle" placeholder="Enter title" required>
-                            </div>
+                            </div> -->
 
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label for="pageDescription" class="form-label">Description</label>
                                 <textarea class="form-control" id="pageDescription" name="pageDescription" rows="3" placeholder="Enter description" required></textarea>
-                            </div>
+                            </div> -->
 
                            
                             
