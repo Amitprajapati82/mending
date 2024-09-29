@@ -119,13 +119,12 @@
         <form id="editBrandForm" enctype="multipart/form-data">
         <input type="hidden" id="editBrandId" name="editBrandId">
         <!-- <input type="hidden" id="editBrandId" name="editBrandId"> -->
-          <div class="mb-3">
-            <label for="editCategoryId" class="form-label">Category</label>
-            <select class="form-control" name="editCategoryId" id="editCategoryId">
-            
-              
-            </select>
-          </div>
+        <div class="mb-3">
+          <label for="editCategoryId" class="form-label">Category</label>
+          <select class="form-control" name="editCategoryId" id="editCategoryId">
+              <!-- Options will be populated here -->
+          </select>
+      </div>
 
           <div class="mb-3">
             <label for="editBrandName" class="form-label">Brand Name</label>

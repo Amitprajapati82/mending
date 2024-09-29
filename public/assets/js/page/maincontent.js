@@ -4,9 +4,13 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         ajax: {
-            url: '/admin/page-main-content/data', 
+            url: '/admin/page-main-content/data',
             type: 'GET',
-            dataSrc: function(json) {
+            dataSrc: function (json) {
+                // Log the incoming data for debugging purposes
+                console.log("Server Response:", json);
+    
+                // Check if the data property exists and return it; otherwise, log an error
                 if (!json.data) {
                     console.error("No data returned from the server.");
                     return [];
@@ -15,50 +19,81 @@ $(document).ready(function() {
             }
         },
         columns: [
-            { 
-                data: null, 
-                orderable: false, 
-                searchable: false, 
-                render: function(data, type, row, meta) {
-                    // Serial number
-                    return meta.row + meta.settings._iDisplayStart + 1; 
+            {
+                data: null,
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row, meta) {
+                    // Serial number rendering
+                    return meta.row + meta.settings._iDisplayStart + 1;
                 }
             },
-            { 
-                data: 'title', 
-                name: 'title', 
-                orderable: true, 
-                searchable: true 
+            {
+                data: 'title',
+                name: 'title',
+                orderable: true,
+                searchable: true
             },
-            { 
-                data: 'description', 
-                name: 'description', 
-                orderable: true, 
-                searchable: true 
+            {
+                data: 'description',
+                name: 'description',
+                orderable: true,
+                searchable: true
             },
-            { 
-                data: 'images', 
-                name: 'images', 
-                render: function(data) {
+            {
+                data: 'images',
+                name: 'images',
+                render: function (data) {
                     try {
-                        // Parse JSON string for images
-                        const images = JSON.parse(data);
-                        if (images && images.length > 0) {
-                            return `<img src="${images[0]}" alt="Image" style="width: 100px; height: auto;">`; 
+                        // Debug: Log the image data received
+                        const decodeHtml = (html) => {
+                            const txt = document.createElement('textarea');
+                            txt.innerHTML = html;
+                            return txt.value;
+                        };
+            
+                        // Decode the encoded JSON string
+                        const decodedData = decodeHtml(data);
+            
+                        // Debug: Log the decoded data
+                        // console.log("Decoded Image Data:", decodedData);
+            
+                        // Parse the JSON string to extract image paths
+                        const images = JSON.parse(decodedData);
+            
+    
+                        // Ensure the data is not null or empty
+                        if (!data) {
+                            // console.warn("Image data is empty or null.");
+                            return 'No Image Available';
+                        }
+    
+                        // Parse JSON string if it's a valid format
+                        // const images = JSON.parse(data);
+    
+                        // Check if images array contains at least one valid path
+                        if (Array.isArray(images)) {
+                            console.log('bvkcxbj');
+                            
+                            const imagePath = `/storage/${images[0]}`; // Adjust path if necessary
+                            console.log("Image Path:", imagePath); // Debug the path
+    
+                            // Return the image element
+                            return `<img src="${imagePath}" alt="Image" style="width: 100px; height: auto;">`;
                         } else {
                             return 'No Image Available';
                         }
                     } catch (error) {
-                        console.error("Error parsing image data: ", error);
+                        console.error("Error parsing image data:", error);
                         return 'Invalid Image Data';
                     }
                 }
             },
-            { 
-                data: null, 
-                orderable: false, 
-                searchable: false, 
-                render: function(data) {
+            {
+                data: null,
+                orderable: false,
+                searchable: false,
+                render: function (data) {
                     return `
                         <button class="btn btn-sm btn-warning editBtn" data-bs-toggle="modal" data-bs-target="#editPageMainContentModal" data-id="${data.id}">Edit</button>
                         <button class="btn btn-sm btn-danger deleteBtn" data-id="${data.id}">Delete</button>
@@ -67,7 +102,7 @@ $(document).ready(function() {
             }
         ]
     });
-
+    
     $('#tableData').on('click', '.editBtn', function() {
         var id = $(this).data('id');
 
@@ -217,7 +252,7 @@ $(document).ready(function() {
             success: function(response) {
                 
                 $('#addPageMainContentModal').modal('hide');
-                table.ajax.reload(full,null);
+                table.ajax.reload();
                 // location.reload();   
             },
             error: function(xhr) {

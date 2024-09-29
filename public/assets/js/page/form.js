@@ -50,6 +50,7 @@ $(document).ready(function() {
                 // $('#addPageContentForm')[0].reset();
                 $('#dynamicFieldsContainer').empty();
                 $('#tableData').DataTable().ajax.reload();
+                window.location.href = '/admin/page-content';
             },
             error: function(xhr) {
                 

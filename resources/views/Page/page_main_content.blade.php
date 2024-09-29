@@ -126,16 +126,16 @@
                         <div class="dynamic-field mb-4">
                             <div class="mb-3">
                                 <label for="editPageTitle" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="editPageTitle" name="editPageTitle" placeholder="Enter title" required>
+                                <input type="text" class="form-control" id="editPageTitle" name="editPageTitle[]" placeholder="Enter title" required>
                             </div>
                             <div class="mb-3">
                                 <label for="editPageDescription" class="form-label">Description</label>
-                                <textarea class="form-control" id="editPageDescription" name="editPageDescription" rows="3" placeholder="Enter description" required></textarea>
+                                <textarea class="form-control" id="editPageDescription" name="editPageDescription[]" rows="3" placeholder="Enter description" required></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="editPageImages" class="form-label">Upload Images</label>
                                 <div class="input-group mb-2">
-                                    <input type="file" class="form-control" id="editPageImages" name="editPageImages" accept="image/*">
+                                    <input type="file" class="form-control" id="editPageImages" name="editPageImages[]" accept="image/*">
                                 </div>
                             </div>
                             <!-- Image Preview -->

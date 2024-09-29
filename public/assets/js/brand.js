@@ -98,11 +98,11 @@ $(document).ready(function () {
             data:{id:id},
             method: 'GET',
             success: function(data) {
-                // console.log(category_name);
+                console.log(data);
                 
                 var categoryOptions = '';
                 $.each(data, function(index, category) {
-                    categoryOptions += '<option value="' + category.id + '">' + category.name + '</option>';
+                    categoryOptions += '<option value="' + category.category_id + '">' + category.category_name + '</option>';
                 });
                 $('#editCategoryId').html(categoryOptions);                
                 
