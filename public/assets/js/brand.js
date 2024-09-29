@@ -104,7 +104,7 @@ $(document).ready(function () {
                 $.each(data, function(index, category) {
                     categoryOptions += '<option value="' + category.category_id + '">' + category.category_name + '</option>';
                 });
-                $('#editCategoryId').html(categoryOptions);                
+                $('#editBrandModal #editCategoryId').html(categoryOptions);                
                 
                 $('#editBrandId').val(data[0].id);
                 // console.log(cat);

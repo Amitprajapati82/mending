@@ -555,17 +555,18 @@
             <!-- ======= Stats Counter Section ======= -->
             <section id="stats-counter" class="stats-counter">
                 @foreach ($pageContents as $item)
-                <h1>{{$item['page_main_content']}}</h1>
-                    @if(isset($item['page_main_content']) && is_object($item['page_main_content'])) 
+                
+                {{-- <h1>{{$item->PageMainContent->title}}</h1> --}}
+                    @if(isset($item->PageMainContent->title)) 
                         <div class="section-header">
-                            <h2>{{ $item['page_main_content']->title }}</h2>
+                            <h2>{{ $item->PageMainContent->title }}</h2>
                         </div>
                         <div class="container" data-aos="fade-up">
 
                             <div class="row gy-4 align-items-center bg-clr">
                                 @php
                                     // Decode images only if they exist
-                                    $image = json_decode($item['page_main_content']->images, true);
+                                    $image = json_decode($item->PageMainContent->images, true);
                                 @endphp
 
                                 @if($image && is_array($image) && count($image) > 0)
@@ -582,7 +583,7 @@
 
                                 <div class="col-lg-7">
                                     <div class="section-header">
-                                        <p class="mb-3 text-justify">{{ $item['page_main_content']->description }}</p>
+                                        <p class="mb-3 text-justify">{{ $item->PageMainContent->description }}</p>
                                     </div>
                                 </div>
                             </div>

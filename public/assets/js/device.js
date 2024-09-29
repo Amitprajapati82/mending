@@ -133,8 +133,20 @@ $(document).ready(function() {
                 
                 $('#editDeviceId').val(data[0].id);
                 $('#editDeviceModal').val(data[0].id);
+                var categoryOptions = '';
+                $.each(data, function(index, category) {
+                    categoryOptions += '<option value="' + category.category_id + '" selected >' + category.category_name + '</option>';
+                });
+                $('#editDeviceModal #editCategorySelect').html(categoryOptions); 
                 $('#editCategorySelect').val(data[0].category_name);
-                $('#editBrandSelect').val(data[0].brand_name);
+
+                var BrandOptions = '';
+                $.each(data, function(index, Brand) {
+                    console.log(Brand);
+                    
+                    BrandOptions += '<option value="' + Brand.brand_id + '" selected >' + Brand.brand_name + '</option>';
+                });
+                $('#editDeviceModal #editBrandSelect').html(BrandOptions);
                 var imagePath = data[0].image ? 'storage/' + data[0].image.replace('admin/', '') : null;
 
                 if (imagePath) {
@@ -235,38 +247,44 @@ $(document).ready(function() {
 
     
 
-    $('.deleteDevice').on('click', function() {
-        let deviceId = $(this).data('id');
+    $('#tableData').on('click', '.deleteDevice', function() { 
+        var id = $(this).data('id');
 
-        swal({
-            title: "Are you sure?",
-            text: "You will not be able to recover this Device!",
-            type: "warning",
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes, delete it!",
-            closeOnConfirm: false
-        }, function() {
-            $.ajax({
-                url: '/admin/devices/delete',
-                method: 'DELETE',
-                data:{id:deviceId},
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(data) {
-                    if (data.success) {
-                        // Remove the row from the table
-                        $('#items-' + brandId).remove();
-                        swal("Deleted!", "The Brand has been deleted.", "success");
-                    } else {
-                        swal("Error!", "There was a problem deleting the Brand.", "error");
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/admin/devices/delete',
+                    method: 'DELETE',
+                    data: {
+                        id:id,
+                        _token: $('meta[name="csrf-token"]').attr('content') 
+                    },
+                    success: function(response) {
+                        table.ajax.reload(); 
+                        Swal.fire(
+                            'Deleted!',
+                            'Your Device has been deleted.',
+                            'success'
+                        );
+                    },
+                    error: function(xhr) {
+                        Swal.fire(
+                            'Error!',
+                            'An error occurred while deleting the Device.',
+                            'error'
+                        );
                     }
-                },
-                error: function(xhr) {
-                    swal("Error!", xhr.responseText, "error");
-                }
-            });
+                });
+            }
         });
     });
 });

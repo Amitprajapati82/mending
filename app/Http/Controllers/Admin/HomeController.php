@@ -43,7 +43,7 @@ class HomeController extends Controller
                 ->where('id',$id)
                 ->where('status', 1)
                 ->get();
-                // return $pageContents;
+                // echo'<pre>';print_r($pageContents);die;
         return view('home.page',compact('pageContents'));
     }
 
@@ -266,7 +266,7 @@ class HomeController extends Controller
         
 
         // Send email notification
-        // Mail::to($data->email)->send(new ContactMail($data));
+        Mail::to($data->email)->send(new ContactMail($data));
 
         // Return a response
         return response()->json(['success' => 'Your message has been sent successfully!']);
