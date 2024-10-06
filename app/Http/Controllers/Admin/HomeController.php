@@ -9,13 +9,15 @@ use App\Models\Contact;
 use App\Models\Appointment;
 use App\Models\Device;
 use App\Models\Issue;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AppointmentMail;
 use App\Mail\ContactMail;
 use App\Models\PageContent;
 use Illuminate\Support\Facades\DB;
 use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+// use Illuminate\Support\Facades\Mail;
 
 
 class HomeController extends Controller
@@ -206,7 +208,10 @@ class HomeController extends Controller
 
         // Save the appointment to the database
         $appointment->save();
-        $this->sendWhatsAppMessage($appointment);
+        return $appointment->customer_email;
+        // $this->sendWhatsAppMessage($appointment);
+        Mail::to($appointment->customer_email)->send(new AppointmentMail($appointment));
+
         return response()->json(['success' => 'Successfully Booking Slot.']);
     }
 

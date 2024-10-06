@@ -798,8 +798,8 @@ p {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Ensure CSRF token is included
             },      
             success: function(response) {
-              $('#formModal').modal('hide');
-              location.reload();
+              // $('#formModal').modal('hide');
+              // location.reload();
                 // alert('Booking submitted successfully!');
             },
             error: function(xhr, status, error) {
